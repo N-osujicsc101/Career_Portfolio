@@ -1,65 +1,468 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
+import Image from "next/image";
+import Link from "next/link";
+import { Container, Github, Linkedin } from 'lucide-react';
+import emailjs from '@emailjs/browser';
+
+interface FormState {
+  name: string;
+  email: string;
+  message: string;
+}
+
+interface StatusState {
+  type: 'idle' | 'loading' | 'success' | 'error';
+  message: string;
+}
+
+export default function Home(): JSX.Element {
+  const [displayText, setDisplayText] = useState<string>('');
+  const words: string[] = ['Data Scientist', 'Software Developer', 'Designer', 'Writer'];
+  const [currentWordIndex, setCurrentWordIndex] = useState<number>(0);
+  const fullText: string = words[currentWordIndex];
+
+  const [formData, setFormData] = useState<FormState>({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+  const [status, setStatus] = useState<StatusState>({
+    type: 'idle',
+    message: ''
+  });
+
+ 
+  useEffect(() => {
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index < fullText.length) {
+        setDisplayText(fullText.slice(0, index + 1));
+        index++;
+      } else {
+        setTimeout(() => {
+          setCurrentWordIndex((prev) => (prev + 1) % words.length);
+          setDisplayText('');
+        }, 2000);
+        clearInterval(interval);
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [currentWordIndex, fullText]);
+
+ 
+  useEffect(() => {
+    emailjs.init("hf");
+  }, []);
+
+  const handleFormChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+    setStatus({ type: 'loading', message: 'Sending...' });
+
+    try {
+      await emailjs.send(
+        "pp",
+        ";;",
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_email: '..',
+        }
+      );
+
+      setStatus({
+        type: 'success',
+        message: 'Email sent successfully! I will get back to you soon.'
+      });
+      setFormData({ name: '', email: '', message: '' });
+
+      setTimeout(() => {
+        setStatus({ type: 'idle', message: '' });
+      }, 5000);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      setStatus({
+        type: 'error',
+        message: 'Failed to send email. Please try again.'
+      });
+      console.error('EmailJS error:', errorMessage);
+      console.error('Full error:', error);
+    }
+  };
+
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <>
+      {/* NAVBAR */}
+      <header className="sticky top-0 z-50 w-full bg-white border-b">
+        <nav className="mx-auto max-w-6xl px-6 py-6 flex justify-center">
+          <ul className="flex flex-wrap justify-center gap-6 md:gap-10 text-gray-700">
+            <li>
+              <Link href="#about" className="hover:text-pink-500 transition">
+                About Me
+              </Link>
+            </li>
+            <li>
+              <Link href="#experience" className="hover:text-pink-500 transition">
+                Experience
+              </Link>
+            </li>
+            <li>
+              <Link href="#projects" className="hover:text-pink-500 transition">
+                Projects
+              </Link>
+            </li>
+            <li>
+              <Link href="#skills" className="hover:text-pink-500 transition">
+                Skills
+              </Link>
+            </li>
+
+          </ul>
+        </nav>
+      </header>
+
+      {/* MAIN CONTENT */}
+      <main className="bg-white">
+
+        {/* HERO SECTION */}
+        <section className="mx-auto max-w-6xl px-6">
+          <div className="flex flex-col gap-12 lg:grid lg:grid-cols-2 lg:items-center">
+
+            {/* LEFT CONTENT */}
+            <div>
+              <h1 className="text-4xl text-gray-600 mb-4">
+                Hi, my name is Nneoma,
+              </h1>
+
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                I'm A <span className="typing bg-pink-300">{displayText}</span>
+              </h1>
+
+              <p className="max-w-md text-gray-700 leading-relaxed">
+                I am a computer science major in Pan-Atlantic University, building
+                clean, functional web applications with Python and modern web
+                technologies.
+              </p>
+            </div>
+
+            {/* RIGHT IMAGE + BUTTONS */}
+            <div className="flex flex-col items-center lg:items-end gap-6">
+              <div className="relative mb-5">
+                <div className="absolute -top-6 -right-6 h-72 w-56 rounded-3xl bg-pink-200"></div>
+
+                <div className="relative z-10 h-72 w-56 rounded-3xl bg-gray-100 shadow-lg overflow-hidden">
+                  <Image
+                    src="/Profile_new.jpg"
+                    alt="Profile photo"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 items-center">
+                <a href="https://github.com/N-osujicsc101?tab=overview&from=2025-12-01&to=2025-12-30" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-pink-500 transition">
+                  <Github size={24} />
+                </a>
+
+                <a href="https://www.linkedin.com/in/nneoma-osuji-9a6370266" target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-pink-500 transition">
+                  <Linkedin size={24} />
+                </a>
+
+                <button
+                  onClick={() => {
+                    const element = document.getElementById('contact');
+                    element?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="border border-gray-300 px-6 py-3 rounded-full text-gray-700 hover:bg-gray-100 transition"
+                >
+                  Contact Me
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ABOUT SECTION */}
+        <section id="about" className="scroll-mt-24 bg-gray-50 py-32">
+          <div className="mx-auto max-w-6xl px-6">
+            <h2 className="page-title text-3xl font-bold mb-6">About Me</h2>
+            <div className= "container flow-text">
+            <p className="max-w-2xl text-gray-700 leading-relaxed">
+              I’m a Computer Science major at Pan-Atlantic University who
+              loves building practical projects that solve real problems.
+              I work with data science and software development,
+              and I enjoy design as a creative outlet. I’m deeply
+              interested in using data and technology to
+              improve lives and make a positive impact.
+            </p>
+            </div>
+          </div>
+        </section>
+
+        {/* EXPERIENCE SECTION */}
+        <section id="experience" className="scroll-mt-24">
+          <div className="mx-auto max-w-6xl px-6">
+            <h2 className="page-title text-3xl font-bold mb-12">Experience</h2>
+
+            <div className="space-y-8 max-w-3xl">
+              <div>
+                <h3 className="font-semibold text-lg">
+                  Software Developer Intern
+                </h3>
+                <p className="text-sm text-gray-500">
+                  Wootlab • 2024
+                </p>
+                <p className="mt-2 text-gray-700">
+                  Worked on building and maintaining web applications using Python,
+                  Flask, and modern frontend technologies.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-lg">
+                  Academic & Personal Projects
+                </h3>
+                <p className="text-sm text-gray-500">
+                  Pan-Atlantic University
+                </p>
+                <p className="mt-2 text-gray-700">
+                  Developed AI-powered systems, chatbots, and full-stack
+                  applications through coursework and self-learning.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* PROJECTS SECTION */}
+        <section id="projects" className="scroll-mt-24 bg-gray-50">
+          <div className="mx-auto max-w-6xl px-6">
+            <h2 className="page-title text-3xl font-bold mb-12">Projects</h2>
+
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {/* Project 1 */}
+              <a 
+                href="https://github.com/N-osujicsc101/Computer-graphics/tree/main/2dassignment" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="rounded-2xl border overflow-hidden hover:shadow-lg transition cursor-pointer group"
+              >
+                <div className="relative w-full h-48 flex items-center justify-center overflow-hidden">
+                  <Image
+                    src="/render.png"
+                    alt="Graphic rendering"
+                    fill
+                    className="object-cover group-hover:scale-110 transition duration-300"
+                  />
+                  
+                </div>
+                <div className="p-6">
+                  <h3 className="font-semibold text-lg mb-2">
+                    Graphic rendering
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-4">
+                    Rendering sophisticated 2D images
+                  </p>
+                  <span className="inline-block text-pink-500 font-medium text-sm">
+                    View details →
+                  </span>
+                </div>
+              </a>
+
+              {/* Project 2 */}
+              <a 
+                href="https://github.com/N-osujicsc101/csc202-set2022" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="rounded-2xl border overflow-hidden hover:shadow-lg transition cursor-pointer group"
+              >
+                <div className="relative w-full h-48 flex items-center justify-center overflow-hidden">
+                  <Image
+                    src="/web app.png"
+                    alt="Dental Web app"
+                    fill
+                    className="object-cover group-hover:scale-110 transition duration-300"
+                  />
+                  
+                </div>
+                <div className="p-6">
+                  <h3 className="font-semibold text-lg mb-2">
+                    Dental Web app
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-4">
+                    Custom web app to manage files in a dental clinique.
+                  </p>
+                  <span className="inline-block text-pink-500 font-medium text-sm">
+                    View details →
+                  </span>
+                </div>
+              </a>
+
+              {/* Project 3 */}
+              <a 
+                href="https://1drv.ms/f/c/449e0ea3d6ec52ee/IgB9vPrvu-QdTYLy5GiEa-EkAazqLEhldUevWstLVDhrwvI?e=HlnyTd" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="rounded-2xl border overflow-hidden hover:shadow-lg transition cursor-pointer group"
+              >
+                <div className="relative w-full h-48  flex items-center justify-center overflow-hidden">
+                  <Image
+                    src="/apache.png"
+                    alt="Staff Management App"
+                    fill
+                    className="object-cover group-hover:scale-110 transition duration-300"
+                  />
+                 
+                </div>
+                <div className="p-6">
+                  <h3 className="font-semibold text-lg mb-2">
+                    Staff Management App
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-4">
+                    Staff management app for managing staff in PAU.
+                  </p>
+                  <span className="inline-block text-pink-500 font-medium text-sm">
+                    View details →
+                  </span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* SKILLS SECTION */}
+        <section id="skills" className="scroll-mt-24 py-32">
+          <div className="mx-auto max-w-6xl px-6">
+            <h2 className="page-title text-3xl font-bold mb-12">Skills</h2>
+
+            <div className="flex flex-wrap gap-4 max-w-3xl">
+              {[
+                "Python",
+                "Flask",
+                "JavaScript",
+                "React",
+                "Next.js",
+                "HTML",
+                "CSS",
+                "Tailwind CSS",
+                "Git & GitHub",
+                "AI / Generative Models",
+              ].map((skill) => (
+                <span
+                  key={skill}
+                  className="rounded-full bg-gray-100 px-5 py-2 text-sm text-gray-700"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CONTACT SECTION */}
+        <section id="contact" className="flex justify-start scroll-mt-24 bg-gray-50 py-32">
+          {/* Removed mx-auto and max-w-7xl to align left and allow full horizontal expansion */}
+          <div className="ml-90 w-full max-w-2xl px-6">
+
+            <h2 className="page-title text-3xl font-bold mb-12">Contact Me</h2>
+
+            <div className="w-full">
+              <form onSubmit={handleFormSubmit} className="space-y-6">
+                {/* Name Input */}
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium mb-2">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleFormChange}
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-pink-500 transition"
+                    placeholder="Your name"
+                  />
+                </div>
+
+                {/* Email Input */}
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleFormChange}
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-pink-500 transition"
+                    placeholder="your.email@example.com"
+                  />
+                </div>
+
+                {/* Message Textarea */}
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium mb-2">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleFormChange}
+                    required
+                    rows={6}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-pink-500 transition resize-x"
+                    placeholder="Your message..."
+                  ></textarea>
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={status.type === 'loading'}
+                  className="bg-pink-500 px-8 py-3 rounded-full text-white font-medium hover:bg-pink-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {status.type === 'loading' ? 'Sending...' : 'Send Message'}
+                </button>
+
+                {/* Status Message */}
+                {status.message && (
+                  <div
+                    className={`p-4 rounded-lg ${status.type === 'success'
+                      ? 'bg-green-100 text-green-700 border border-green-300'
+                      : status.type === 'error'
+                        ? 'bg-red-100 text-red-700 border border-red-300'
+                        : ''
+                      }`}
+                  >
+                    {status.message}
+                  </div>
+                )}
+              </form>
+            </div>
+          </div>
+        </section>
+
+
       </main>
-    </div>
+    </>
   );
 }
