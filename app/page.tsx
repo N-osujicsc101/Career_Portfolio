@@ -34,7 +34,7 @@ export default function Home(): JSX.Element {
     message: ''
   });
 
- 
+
   useEffect(() => {
     let index = 0;
     const interval = setInterval(() => {
@@ -53,9 +53,9 @@ export default function Home(): JSX.Element {
     return () => clearInterval(interval);
   }, [currentWordIndex, fullText]);
 
- 
+
   useEffect(() => {
-    emailjs.init("hf");
+    emailjs.init('_83w0olw6emY2U7Nf');
   }, []);
 
   const handleFormChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
@@ -72,13 +72,13 @@ export default function Home(): JSX.Element {
 
     try {
       await emailjs.send(
-        "pp",
-        ";;",
+        "service_wzsku1p",
+        "template_626cj0d",
         {
           from_name: formData.name,
           from_email: formData.email,
           message: formData.message,
-          to_email: '..',
+          to_email: 'mosujinneoma@gmail.com',
         }
       );
 
@@ -105,7 +105,6 @@ export default function Home(): JSX.Element {
 
   return (
     <>
-      {/* NAVBAR */}
       <header className="sticky top-0 z-50 w-full bg-white border-b">
         <nav className="mx-auto max-w-6xl px-6 py-6 flex justify-center">
           <ul className="flex flex-wrap justify-center gap-6 md:gap-10 text-gray-700">
@@ -134,17 +133,14 @@ export default function Home(): JSX.Element {
         </nav>
       </header>
 
-      {/* MAIN CONTENT */}
       <main className="bg-white">
 
-        {/* HERO SECTION */}
         <section className="mx-auto max-w-6xl px-6">
           <div className="flex flex-col gap-12 lg:grid lg:grid-cols-2 lg:items-center">
 
-            {/* LEFT CONTENT */}
             <div>
               <h1 className="text-4xl text-gray-600 mb-4">
-                Hi, my name is Nneoma,
+                Hi, my name is Nneoma M. Osuji,
               </h1>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
@@ -152,13 +148,11 @@ export default function Home(): JSX.Element {
               </h1>
 
               <p className="max-w-md text-gray-700 leading-relaxed">
-                I am a computer science major in Pan-Atlantic University, building
-                clean, functional web applications with Python and modern web
-                technologies.
+                My first name is Maria faustina but my call name is Nneoma
+               "Technology is neither good nor bad; nor is it neutral." – Melvin Kranzberg
               </p>
             </div>
 
-            {/* RIGHT IMAGE + BUTTONS */}
             <div className="flex flex-col items-center lg:items-end gap-6">
               <div className="relative mb-5">
                 <div className="absolute -top-6 -right-6 h-72 w-56 rounded-3xl bg-pink-200"></div>
@@ -197,29 +191,54 @@ export default function Home(): JSX.Element {
           </div>
         </section>
 
-        {/* ABOUT SECTION */}
         <section id="about" className="scroll-mt-24 bg-gray-50 py-32">
           <div className="mx-auto max-w-6xl px-6">
             <h2 className="page-title text-3xl font-bold mb-6">About Me</h2>
-            <div className= "container flow-text">
-            <p className="max-w-2xl text-gray-700 leading-relaxed">
-              I’m a Computer Science major at Pan-Atlantic University who
-              loves building practical projects that solve real problems.
-              I work with data science and software development,
-              and I enjoy design as a creative outlet. I’m deeply
-              interested in using data and technology to
-              improve lives and make a positive impact.
-            </p>
+            <div className="container flow-text">
+              <p className="max-w-2xl text-gray-700 leading-relaxed">
+                I’m a Computer Science student at Pan-Atlantic University passionate about building practical, human-centered technology. 
+                My work lives at the intersection of data science, software development, and design, 
+                where thoughtful engineering meets real-world impact. Im naturally thoughful and deep as an individual.
+                <br />
+                <br />
+                I’m particularly interested in using data and AI-driven systems to solve 
+                meaningful problems and improve everyday experiences. 
+                <br />
+                <br />
+                I enjoy breaking down complex ideas, designing intuitive solutions, 
+                and turning them into tools that are both functional and intentional. 
+                Through academic and personal projects, I’m constantly exploring how technology 
+                can be used responsibly and creatively to make a positive difference 
+                and I'm actively looking for opportunities to explore my interests.
+                <br />
+                <br />
+                In my spare time I also enjoy reading
+                playing video games and watching korean dramas.
+              </p>
             </div>
           </div>
         </section>
 
-        {/* EXPERIENCE SECTION */}
+
         <section id="experience" className="scroll-mt-24">
           <div className="mx-auto max-w-6xl px-6">
             <h2 className="page-title text-3xl font-bold mb-12">Experience</h2>
 
             <div className="space-y-8 max-w-3xl">
+              <div>
+                <h3 className="font-semibold text-lg">
+                  IT and communications support Intern
+                </h3>
+                <p className="text-sm text-gray-500">
+                  CSAAE • 2025
+                </p>
+                <p className="mt-2 text-gray-700">
+                  Provided necessary technological support to different departments
+                  in the office. Assited in building functional automation applications to replace
+                  manual tasks.
+                </p>
+              </div>
+
               <div>
                 <h3 className="font-semibold text-lg">
                   Software Developer Intern
@@ -232,33 +251,32 @@ export default function Home(): JSX.Element {
                   Flask, and modern frontend technologies.
                 </p>
               </div>
+            </div>
 
-              <div>
-                <h3 className="font-semibold text-lg">
-                  Academic & Personal Projects
-                </h3>
-                <p className="text-sm text-gray-500">
-                  Pan-Atlantic University
-                </p>
-                <p className="mt-2 text-gray-700">
-                  Developed AI-powered systems, chatbots, and full-stack
-                  applications through coursework and self-learning.
-                </p>
-              </div>
+
+            <div className="mt-10">
+              <a
+                href="/M_osujiResume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-pink-500 font-medium underline underline-offset-4 hover:text-pink-600 transition"
+              >
+                View my full resume →
+              </a>
             </div>
           </div>
         </section>
 
-        {/* PROJECTS SECTION */}
+
         <section id="projects" className="scroll-mt-24 bg-gray-50">
           <div className="mx-auto max-w-6xl px-6">
             <h2 className="page-title text-3xl font-bold mb-12">Projects</h2>
 
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {/* Project 1 */}
-              <a 
-                href="https://github.com/N-osujicsc101/Computer-graphics/tree/main/2dassignment" 
-                target="_blank" 
+
+              <a
+                href="https://github.com/N-osujicsc101/Computer-graphics/tree/main/2dassignment"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-2xl border overflow-hidden hover:shadow-lg transition cursor-pointer group"
               >
@@ -269,7 +287,7 @@ export default function Home(): JSX.Element {
                     fill
                     className="object-cover group-hover:scale-110 transition duration-300"
                   />
-                  
+
                 </div>
                 <div className="p-6">
                   <h3 className="font-semibold text-lg mb-2">
@@ -284,10 +302,9 @@ export default function Home(): JSX.Element {
                 </div>
               </a>
 
-              {/* Project 2 */}
-              <a 
-                href="https://github.com/N-osujicsc101/csc202-set2022" 
-                target="_blank" 
+              <a
+                href="https://github.com/N-osujicsc101/csc202-set2022"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-2xl border overflow-hidden hover:shadow-lg transition cursor-pointer group"
               >
@@ -298,7 +315,7 @@ export default function Home(): JSX.Element {
                     fill
                     className="object-cover group-hover:scale-110 transition duration-300"
                   />
-                  
+
                 </div>
                 <div className="p-6">
                   <h3 className="font-semibold text-lg mb-2">
@@ -313,10 +330,10 @@ export default function Home(): JSX.Element {
                 </div>
               </a>
 
-              {/* Project 3 */}
-              <a 
-                href="https://1drv.ms/f/c/449e0ea3d6ec52ee/IgB9vPrvu-QdTYLy5GiEa-EkAazqLEhldUevWstLVDhrwvI?e=HlnyTd" 
-                target="_blank" 
+
+              <a
+                href="https://1drv.ms/f/c/449e0ea3d6ec52ee/IgB9vPrvu-QdTYLy5GiEa-EkAazqLEhldUevWstLVDhrwvI?e=HlnyTd"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-2xl border overflow-hidden hover:shadow-lg transition cursor-pointer group"
               >
@@ -327,7 +344,7 @@ export default function Home(): JSX.Element {
                     fill
                     className="object-cover group-hover:scale-110 transition duration-300"
                   />
-                 
+
                 </div>
                 <div className="p-6">
                   <h3 className="font-semibold text-lg mb-2">
@@ -345,45 +362,96 @@ export default function Home(): JSX.Element {
           </div>
         </section>
 
-        {/* SKILLS SECTION */}
+
         <section id="skills" className="scroll-mt-24 py-32">
           <div className="mx-auto max-w-6xl px-6">
-            <h2 className="page-title text-3xl font-bold mb-12">Skills</h2>
+            <h2 className="page-title text-3xl font-bold mb-4">
+              Skills
+            </h2>
 
-            <div className="flex flex-wrap gap-4 max-w-3xl">
-              {[
-                "Python",
-                "Flask",
-                "JavaScript",
-                "React",
-                "Next.js",
-                "HTML",
-                "CSS",
-                "Tailwind CSS",
-                "Git & GitHub",
-                "AI / Generative Models",
-              ].map((skill) => (
-                <span
-                  key={skill}
-                  className="rounded-full bg-gray-100 px-5 py-2 text-sm text-gray-700"
-                >
-                  {skill}
-                </span>
-              ))}
+            <p className="text-gray-600 max-w-2xl mb-12">
+              Tools and technologies I use to turn ideas into thoughtful,
+              functional products.
+            </p>
+
+            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+
+
+              <div>
+                <h3 className="font-semibold mb-4 text-gray-800">
+                  Core Development and database administration
+                </h3>
+                <div className="flex flex-wrap gap-3">
+                  {["Python", "JavaScript", "Flask", "React", "Next.js", "SQL"].map(skill => (
+                    <span
+                      key={skill}
+                      className="rounded-full bg-pink-50 text-pink-700 px-4 py-2 text-sm font-medium
+                         hover:bg-pink-100 transition"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+
+              <div>
+                <h3 className="font-semibold mb-4 text-gray-800">
+                  Frontend & Styling
+                </h3>
+                <div className="flex flex-wrap gap-3">
+                  {["HTML", "CSS", "Tailwind CSS", "Streamlit", "Apache Netbeans"].map(skill => (
+                    <span
+                      key={skill}
+                      className="rounded-full bg-gray-100 text-gray-700 px-4 py-2 text-sm
+                         hover:bg-gray-200 transition"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+
+              <div>
+                <h3 className="font-semibold mb-4 text-gray-800">
+                  Tools & Interests
+                </h3>
+                <div className="flex flex-wrap gap-3">
+                  {["Git & GitHub", "AI / Generative Models", "Data Wrandling and Analysis"].map(skill => (
+                    <span
+                      key={skill}
+                      className="rounded-full bg-white border border-gray-200 px-4 py-2 text-sm
+                         hover:border-pink-400 hover:text-pink-600 transition"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
             </div>
           </div>
         </section>
 
-        {/* CONTACT SECTION */}
-        <section id="contact" className="flex justify-start scroll-mt-24 bg-gray-50 py-32">
-          {/* Removed mx-auto and max-w-7xl to align left and allow full horizontal expansion */}
-          <div className="ml-90 w-full max-w-2xl px-6">
 
-            <h2 className="page-title text-3xl font-bold mb-12">Contact Me</h2>
 
-            <div className="w-full">
+        <section id="contact" className="scroll-mt-24 bg-gray-50 py-32">
+
+          <div className="px-6">
+
+
+            <div className="mx-auto max-w-6xl">
+              <h2 className="page-title text-3xl font-bold mb-12">
+                Contact Me
+              </h2>
+            </div>
+
+
+            <div className="mx-auto w-full lg:max-w-5xl">
               <form onSubmit={handleFormSubmit} className="space-y-6">
-                {/* Name Input */}
+
+
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium mb-2">
                     Name
@@ -395,12 +463,12 @@ export default function Home(): JSX.Element {
                     value={formData.name}
                     onChange={handleFormChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-pink-500 transition"
                     placeholder="Your name"
+                    className="w-full max-w-none px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-pink-500 transition"
                   />
                 </div>
 
-                {/* Email Input */}
+
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium mb-2">
                     Email
@@ -412,12 +480,12 @@ export default function Home(): JSX.Element {
                     value={formData.email}
                     onChange={handleFormChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-pink-500 transition"
                     placeholder="your.email@example.com"
+                    className="w-full max-w-none px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-pink-500 transition"
                   />
                 </div>
 
-                {/* Message Textarea */}
+
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium mb-2">
                     Message
@@ -429,12 +497,12 @@ export default function Home(): JSX.Element {
                     onChange={handleFormChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-pink-500 transition resize-x"
                     placeholder="Your message..."
-                  ></textarea>
+                    className="w-full max-w-none px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-pink-500 transition resize-none"
+                  />
                 </div>
 
-                {/* Submit Button */}
+
                 <button
                   type="submit"
                   disabled={status.type === 'loading'}
@@ -443,14 +511,11 @@ export default function Home(): JSX.Element {
                   {status.type === 'loading' ? 'Sending...' : 'Send Message'}
                 </button>
 
-                {/* Status Message */}
                 {status.message && (
                   <div
                     className={`p-4 rounded-lg ${status.type === 'success'
-                      ? 'bg-green-100 text-green-700 border border-green-300'
-                      : status.type === 'error'
-                        ? 'bg-red-100 text-red-700 border border-red-300'
-                        : ''
+                        ? 'bg-green-100 text-green-700 border border-green-300'
+                        : 'bg-red-100 text-red-700 border border-red-300'
                       }`}
                   >
                     {status.message}
@@ -460,6 +525,7 @@ export default function Home(): JSX.Element {
             </div>
           </div>
         </section>
+
 
 
       </main>

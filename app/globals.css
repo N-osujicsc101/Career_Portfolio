@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
-/* Color Palette */
+
 :root {
-  --primary: #ec4899; /* Pink */
-  --primary-light: #fbcfe8; /* Light Pink */
-  --primary-dark: #be185d; /* Dark Pink */
-  --secondary: #f3f4f6; /* Light Gray */
-  --text-primary: #1f2937; /* Dark Gray */
-  --text-secondary: #6b7280; /* Medium Gray */
-  --border: #e5e7eb; /* Border Gray */
+  --primary: #ec4899; 
+  --primary-light: #fbcfe8; 
+  --primary-dark: #be185d; 
+  --secondary: #f3f4f6; 
+  --text-primary: #1f2937; 
+  --text-secondary: #6b7280; 
+  --border: #e5e7eb; 
   --bg-white: #ffffff;
 }
 
@@ -20,25 +20,32 @@ html {
 body {
   background-color: var(--bg-white);
   color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
-/* Full-height sections - all sections */
+* {
+  box-sizing: border-box;
+}
+
+
 main > section {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   padding-top: 4rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   overflow: visible;
 }
 
-/* Hero section - centered vertically */
+
 main > section:first-of-type {
   justify-content: center;
   padding-top: 0;
 }
 
-/* Typing effect animation */
+
 .typing {
   display: inline-block;
   overflow: hidden;
@@ -48,13 +55,19 @@ main > section:first-of-type {
   border-radius: 0.5rem;
 }
 
-/* Form input focus styles */
+
 input:focus,
 textarea:focus {
   box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+  border-color: var(--primary);
 }
 
-/* Card hover effects */
+input,
+textarea {
+  transition: all 0.3s ease;
+}
+
+
 .rounded-2xl {
   transition: all 0.3s ease;
 }
@@ -62,4 +75,52 @@ textarea:focus {
 .rounded-2xl:hover {
   transform: translateY(-4px);
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+
+#contact .max-w-4xl {
+  max-width: 50rem !important;
+}
+
+
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 70px;
+  }
+
+  main > section {
+    padding-top: 2.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  main > section:first-of-type {
+    padding-top: 1rem;
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .rounded-2xl:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (max-width: 480px) {
+  main > section {
+    padding-top: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    min-height: auto;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.125rem;
+  }
 }
