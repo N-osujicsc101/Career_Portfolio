@@ -78,7 +78,7 @@ export default function Home(): JSX.Element {
           from_name: formData.name,
           from_email: formData.email,
           message: formData.message,
-          to_email: 'your.email@example.com',
+          to_email: 'mosujinneoma@gmail.com',
         }
       );
 
