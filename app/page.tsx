@@ -148,7 +148,8 @@ export default function Home(): JSX.Element {
               </h1>
 
               <p className="max-w-md text-gray-700 leading-relaxed">
-                My first name is Maria faustina but my call name is Nneoma
+                My first name is Maria faustina but my preferred name is Nneoma
+                <br />
                "Technology is neither good nor bad; nor is it neutral." – Melvin Kranzberg
               </p>
             </div>
